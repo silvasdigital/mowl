@@ -1,0 +1,44 @@
+{
+  "name": "mowl-store-launch",
+  "version": "1.0.0",
+  "description": "Mowl Store Waitlist Site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack serve --open --config webpack.dev.js",
+    "deploy": "npm run build && git subtree push --prefix dist origin deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silvasdigital/mowl"
+  },
+  "author": "Silva-Mo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/silvasdigital/mowl/issues"
+  },
+  "homepage": "https://github.com/silvasdigital/mowl#readme",
+  "devDependencies": {
+    "copy-webpack-plugin": "^13.0.1",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "glob": "^11.0.3",
+    "html-loader": "^5.0.0",
+    "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.2",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.92.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^5.10.0"
+  },
+  "dependencies": {
+    "@glidejs/glide": "^3.7.1",
+    "animate.css": "^4.1.1",
+    "aos": "^2.3.4",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
+    "date-fns": "^4.1.0"
+  }
+}
