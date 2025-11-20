@@ -430,6 +430,110 @@
             </div>
           </div>
 
+          <!-- Delivery city select (added) -->
+          <div style="padding: 8px 0">
+            <div class="sib-select sib-form-block" data-required="true">
+              <div class="form__entry entry_block">
+                <div class="form__label-row">
+                  <label
+                    class="entry__label"
+                    style="
+                      font-weight: 700;
+                      text-align: left;
+                      font-size: 16px;
+                      font-family: Helvetica, sans-serif;
+                      color: #3c4858;
+                    "
+                    for="EMIRATE"
+                    data-required="*"
+                    >Select Delivery City:</label
+                  >
+                  <div class="entry__field" style="position: relative">
+                    <select
+                      class="input"
+                      id="EMIRATE"
+                      name="EMIRATE"
+                      data-required="true"
+                      required
+                      style="
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        appearance: none;
+                        padding: 0.875rem 1rem;
+                        padding-right: 2.5rem;
+                        border: 1px solid var(--border-color);
+                        border-radius: 8px;
+                        background-color: var(--bg-secondary);
+                        color: var(--text-primary);
+                        font-family: inherit;
+                        font-size: 0.95rem;
+                        transition: all 0.3s ease;
+                        width: 100%;
+                        box-sizing: border-box;
+                      "
+                    >
+                      <option value="" disabled selected hidden>
+                        Select one
+                      </option>
+                      <option class="sib-menu__item" value="1">
+                        Abu Dhabi
+                      </option>
+                      <option class="sib-menu__item" value="2">Al Ain</option>
+                      <option class="sib-menu__item" value="3">Dubai</option>
+                      <option class="sib-menu__item" value="4">Sharjah</option>
+                      <option class="sib-menu__item" value="5">Ajman</option>
+                      <option class="sib-menu__item" value="6">
+                        Umm Al Quwain
+                      </option>
+                      <option class="sib-menu__item" value="7">
+                        Ras Al Khaimah
+                      </option>
+                      <option class="sib-menu__item" value="8">Fujairah</option>
+                    </select>
+                    <!-- Custom arrow to ensure consistent alignment across browsers -->
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                      style="
+                        position: absolute;
+                        right: 1rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 18px;
+                        height: 18px;
+                        pointer-events: none;
+                        color: var(--text-primary);
+                      "
+                    >
+                      <path
+                        d="M7 10l5 5 5-5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <label
+                  class="entry__error entry__error--primary"
+                  style="
+                    font-size: 16px;
+                    text-align: left;
+                    font-family: Helvetica, sans-serif;
+                    color: #661d1d;
+                    background-color: #ffeded;
+                    border-radius: 3px;
+                    border-color: #ff4949;
+                  "
+                >
+                </label>
+              </div>
+            </div>
+          </div>
+
           <div class="sib-checkbox-group sib-form-block" data-required="true">
             <div class="form__entry entry_mcq">
               <div class="form__label-row">
@@ -630,6 +734,34 @@
 
         async function submitForm(evt) {
           evt.preventDefault();
+
+          // Ensure at least one product checkbox is selected
+          const productCheckboxes = Array.from(
+            form.querySelectorAll('input[name="PRODUCT_INTEREST[]"]')
+          );
+          const anyProductChecked = productCheckboxes.some((cb) => cb.checked);
+          if (!anyProductChecked) {
+            // Use the first checkbox to show validation message
+            if (productCheckboxes.length > 0) {
+              const first = productCheckboxes[0];
+              first.setCustomValidity('Please select at least one product.');
+              // reportValidity will show a native validation tooltip where supported
+              first.reportValidity();
+              first.focus();
+              // Clear the custom validity when user interacts next
+              const clear = () => {
+                productCheckboxes.forEach((cb) => cb.setCustomValidity(''));
+                productCheckboxes.forEach((cb) =>
+                  cb.removeEventListener('change', clear)
+                );
+              };
+              productCheckboxes.forEach((cb) =>
+                cb.addEventListener('change', clear)
+              );
+            }
+            return;
+          }
+
           if (!form.checkValidity()) {
             form.reportValidity();
             return;
